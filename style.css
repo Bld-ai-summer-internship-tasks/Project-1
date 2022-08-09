@@ -211,6 +211,7 @@ main {
 .courses-list {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
 }
 
 .course-card {
