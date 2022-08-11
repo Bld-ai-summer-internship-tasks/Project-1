@@ -53,3 +53,47 @@ function createCourseCardElement(course) {
   `;
 	return courseItem;
 }
+
+// dismiss search results on click outside of the search results
+document.addEventListener('click', function (event) {
+	const navbarElement = document.getElementsByClassName('navbar')[0];
+	if (!navbarElement.contains(event.target)) {
+		document.getElementById('search-results').style.display = 'none';
+	}
+});
+
+// search on enter key pressed
+document.getElementById('search-box').addEventListener('keyup', function (event) {
+	if (event.keyCode === 13) {
+		onSearchClicked();
+	}
+});
+
+// handle search click event
+function onSearchClicked() {
+	const searchTerm = document.getElementById('search-box').value;
+	const resultCourses = searchCourses(searchTerm);
+	const resultsListElement = document.getElementById('results-list');
+	resultsListElement.innerHTML = '';
+	resultCourses.forEach((course) => {
+		const resultElement = createResultElement(course);
+		resultsListElement.appendChild(resultElement);
+	});
+	document.getElementById('search-results').style.display = 'block';
+}
+
+// search for courses using search term
+function searchCourses(searchTerm) {
+	const searchResults = coursesJson.courses.filter((course) => {
+		return course.title.toLowerCase().includes(searchTerm.toLowerCase());
+	});
+	return searchResults;
+}
+
+function createResultElement(course) {
+	const courseTitle = course.title;
+	const courseItem = document.createElement('li');
+	courseItem.classList.add('result-item');
+	courseItem.innerHTML = `${courseTitle}`;
+	return courseItem;
+}

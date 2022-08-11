@@ -1,68 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
-  <title>Udemy</title>
-</head>
-<body>
-  <nav class="navbar">
-    <img class="menu" src="https://img.icons8.com/ios-glyphs/344/menu--v1.png" />
-    <img class="navbar-item logo" src="https://www.udemy.com/staticx/udemy/images/v7/logo-udemy.svg" alt="udemy logo">
-    <span class="navbar-item">Categories</span>
-    <div class="navbar-item search-container">
-      <form class="search-form">
-        <button class="search-button" type="submit"><img class="search-button-img" src="https://img.icons8.com/ios-glyphs/344/search--v1.png" alt=""></button>
-        <input class="search-box" type="text" placeholder="Search for anything" aria-label="Search">
-      </form>
-    </div>
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="style.css" />
+		<title>Udemy</title>
+	</head>
+	<body>
+		<nav class="navbar">
+			<img class="menu" src="https://img.icons8.com/ios-glyphs/344/menu--v1.png" />
+			<img
+				class="navbar-item logo"
+				src="https://www.udemy.com/staticx/udemy/images/v7/logo-udemy.svg"
+				alt="udemy logo"
+			/>
+			<span class="navbar-item">Categories</span>
+			<div class="navbar-item search-container">
+				<button class="search-button" type="button" onclick="onSearchClicked()">
+					<img
+						class="search-button-img"
+						src="https://img.icons8.com/ios-glyphs/344/search--v1.png"
+						alt=""
+					/>
+				</button>
+				<input
+					id="search-box"
+					class="search-box"
+					type="text"
+					placeholder="Search for anything"
+					aria-label="Search"
+				/>
+			</div>
+			<div id="search-results" class="search-results">
+				<ul id="results-list"></ul>
+			</div>
 
-    <span class="navbar-item menu-item">Udemy Business</span>
-    <span class="navbar-item menu-item">Teach on Udemy</span>
+			<span class="navbar-item menu-item">Udemy Business</span>
+			<span class="navbar-item menu-item">Teach on Udemy</span>
 
-    
-    <button class="navbar-item cart-button">
-      <img class="cart-img" src="https://img.icons8.com/material-outlined/344/shopping-cart--v1.png" alt="cart icon" />
-    </button>
+			<button class="navbar-item cart-button">
+				<img
+					class="cart-img"
+					src="https://img.icons8.com/material-outlined/344/shopping-cart--v1.png"
+					alt="cart icon"
+				/>
+			</button>
 
-    <button class="navbar-item login-button">Log In</button>
-    <button class="navbar-item signup-button">Sign Up</button>
-    <button class="navbar-item language-button">
-      <img class="language-img" src="https://img.icons8.com/material-outlined/344/globe--v2.png" />
-    </button>
-  </nav>
+			<button class="navbar-item login-button">Log In</button>
+			<button class="navbar-item signup-button">Sign Up</button>
+			<button class="navbar-item language-button">
+				<img
+					class="language-img"
+					src="https://img.icons8.com/material-outlined/344/globe--v2.png"
+				/>
+			</button>
+		</nav>
 
-  <header>
-    
-    <img src="https://img-c.udemycdn.com/notices/home_banner/image_udlite/47444240-88ea-420c-bd60-606da3382f79.jpg" alt="">
-  <div class="header-card">
-    <h1> 24-Hour Flash Sale</h1>
-    Learn valuable, practical skills for less. Log in to see deals on courses. Sale ends tonight!
-  </div>
-  </header>
+		<header>
+			<img
+				src="https://img-c.udemycdn.com/notices/home_banner/image_udlite/47444240-88ea-420c-bd60-606da3382f79.jpg"
+				alt=""
+			/>
+			<div class="header-card">
+				<h1>24-Hour Flash Sale</h1>
+				Learn valuable, practical skills for less. Log in to see deals on courses. Sale ends
+				tonight!
+			</div>
+		</header>
 
-  <main>
-    <h1>A broad selection of courses</h1>
-    <p>Choose from 185,000 online video courses with new additions published every month</p>
-    <div>
-      <span class="active-category category">Python</span>
-      <span class="category">Excel</span>
-      <span class="category">Web Development</span>
-      <span class="category">JavaScript</span>
-      <span class="category">Data Science</span>
-      <span class="category">AWS Certification</span>
-      <span class="category">Drawing</span>
-    </div>
-    <div class="courses-container">
-      <h2>Expand your career opportunities with Python</h2>
-      <p class="category-description">Take one of Udemy’s range of Python courses and learn how to code using this incredibly useful language. Its simple
-      syntax and readability makes Python perfect for Flask, Django, data science, and machine learning. You’ll learn how to
-      build everything from games to sites to apps. Choose from a range of courses that will appeal to ...</p>
-      <button class="explore-button">Explore Python</button>
-      <div id="courses-list" class="courses-list"></div>
-  </main>
-</body>
-<script src="script.js"></script>
+		<main>
+			<h1>A broad selection of courses</h1>
+			<p>Choose from 185,000 online video courses with new additions published every month</p>
+			<div>
+				<span class="active-category category">Python</span>
+				<span class="category">Excel</span>
+				<span class="category">Web Development</span>
+				<span class="category">JavaScript</span>
+				<span class="category">Data Science</span>
+				<span class="category">AWS Certification</span>
+				<span class="category">Drawing</span>
+			</div>
+			<div class="courses-container">
+				<h2>Expand your career opportunities with Python</h2>
+				<p class="category-description">
+					Take one of Udemy’s range of Python courses and learn how to code using this incredibly
+					useful language. Its simple syntax and readability makes Python perfect for Flask, Django,
+					data science, and machine learning. You’ll learn how to build everything from games to
+					sites to apps. Choose from a range of courses that will appeal to ...
+				</p>
+				<button class="explore-button">Explore Python</button>
+				<div id="courses-list" class="courses-list"></div>
+			</div>
+		</main>
+	</body>
+	<script src="script.js"></script>
 </html>

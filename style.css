@@ -50,12 +50,6 @@ body {
   padding: 0 15px;
 }
 
-.search-form {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
 .search-button {
   width: 20px;
   height: 20px;
@@ -72,7 +66,25 @@ body {
 .search-box {
   border: none;
   height: 100%;
+  width: 100%;
+  outline: none;
   background: none;
+}
+
+.search-results {
+  position: absolute;
+  top: 65px;
+  left: 230px;
+  width: 350px;
+  background-color: white;
+  box-shadow: 0px 3px 5px 2px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  display: none;
+}
+
+.result-item {
+  padding: 10px;
+  list-style-type: none;
 }
 
 .cart-button {
