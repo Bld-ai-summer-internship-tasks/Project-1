@@ -1,12 +1,5 @@
 const DATA_URL = 'http://localhost:3000/courses';
-
-fetchCourses().then((coursesJsonData) => {
-	const COURSES_CARDS_LIST_ELEMENT = document.getElementById('courses-list');
-	coursesJsonData.forEach((course) => {
-		const COURSE_CARD_ELEMENT = createCourseCardElement(course);
-		COURSES_CARDS_LIST_ELEMENT.appendChild(COURSE_CARD_ELEMENT);
-	});
-});
+let currentCoursesJsonData;
 
 /**
  * @description fetch courses data from server in json format
@@ -18,6 +11,19 @@ function fetchCourses() {
 			.then((response) => response.json())
 			.then((jsonData) => resolve(jsonData))
 			.catch((error) => reject(error));
+	});
+}
+
+/**
+ * @description render courses cards in courses section
+ * @param {JSON} coursesJsonData
+ */
+function renderCoursesSection(coursesJsonData) {
+	const COURSES_CARDS_LIST_ELEMENT = document.getElementById('courses-list');
+	COURSES_CARDS_LIST_ELEMENT.innerHTML = ''; // clear old courses cards
+	coursesJsonData.forEach((course) => {
+		const COURSE_CARD_ELEMENT = createCourseCardElement(course);
+		COURSES_CARDS_LIST_ELEMENT.appendChild(COURSE_CARD_ELEMENT);
 	});
 }
 
@@ -40,40 +46,13 @@ function createCourseCardElement(courseJsonData) {
 	return COURSE_CARD_ELEMENT;
 }
 
-// dismiss search results on click outside of the search results
-document.addEventListener('click', function (event) {
-	const NAVBAR_ELEMENT = document.getElementsByClassName('navbar')[0];
-	if (!NAVBAR_ELEMENT.contains(event.target)) {
-		document.getElementById('search-results').style.display = 'none';
-	}
-});
-
-// search on enter key pressed
-document.getElementById('search-box').addEventListener('keyup', function (event) {
-	if (event.keyCode === 13) {
-		onSearchClickedHandler();
-	}
-});
-
 /**
  * @description handle search click event
  */
 function onSearchClickedHandler() {
 	const SEARCH_TERM = document.getElementById('search-box').value;
-
-	fetchCourses().then((coursesJsonData) => {
-		const FILTERED_COURSES_JSON_DATA = filterCoursesJsonData(coursesJsonData, SEARCH_TERM);
-
-		const SEARCH_RESULTS_LIST_ELEMENT = document.getElementById('results-list');
-		SEARCH_RESULTS_LIST_ELEMENT.innerHTML = ''; // clear old search results
-
-		FILTERED_COURSES_JSON_DATA.forEach((course) => {
-			const SEARCH_RESULT_ELEMENT = createSearchResultElement(course);
-			SEARCH_RESULTS_LIST_ELEMENT.appendChild(SEARCH_RESULT_ELEMENT);
-		});
-		const SEARCH_RESULTS_CONTAINER_ELEMENT = document.getElementById('search-results');
-		SEARCH_RESULTS_CONTAINER_ELEMENT.style.display = 'block';
-	});
+	const FILTERED_COURSES_JSON_DATA = filterCoursesJsonData(currentCoursesJsonData, SEARCH_TERM);
+	renderCoursesSection(FILTERED_COURSES_JSON_DATA);
 }
 
 /**
@@ -88,15 +67,14 @@ function filterCoursesJsonData(coursesJsonData, searchTerm) {
 	});
 }
 
-/**
- * @description create search result element
- * @param {JSON} courseJsonData
- * @returns {HTMLElement} Search result element
- */
-function createSearchResultElement(courseJsonData) {
-	const COURSE_TITLE = courseJsonData.title;
-	const SEARCH_RESULT_ELEMENT = document.createElement('li');
-	SEARCH_RESULT_ELEMENT.classList.add('result-item');
-	SEARCH_RESULT_ELEMENT.innerHTML = `${COURSE_TITLE}`;
-	return SEARCH_RESULT_ELEMENT;
-}
+// search on enter key pressed
+document.getElementById('search-box').addEventListener('keyup', function (event) {
+	if (event.keyCode === 13) {
+		onSearchClickedHandler();
+	}
+});
+
+fetchCourses().then((fetchedCoursesJsonData) => {
+	currentCoursesJsonData = fetchedCoursesJsonData;
+	renderCoursesSection(currentCoursesJsonData);
+});
