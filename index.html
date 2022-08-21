@@ -11,6 +11,7 @@
 			crossorigin="anonymous"
 		/>
 		<link rel="stylesheet" href="style.css" />
+		<script src="https://use.fontawesome.com/88b563310e.js"></script>
 		<title>Udemy</title>
 	</head>
 	<body>
@@ -93,7 +94,32 @@
 					sites to apps. Choose from a range of courses that will appeal to ...
 				</p>
 				<button class="explore-button">Explore Python</button>
-				<div id="courses-list" class="courses-list"></div>
+
+				<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+					<div class="carousel-inner" id="courses-slider"></div>
+					<button
+						class="carousel-control-prev"
+						type="button"
+						data-bs-target="#carouselExampleControls"
+						data-bs-slide="prev"
+					>
+						<span class="prev-icon"
+							><i class="fa fa-chevron-circle-left fa-4x" aria-hidden="true"></i>
+						</span>
+						<span class="visually-hidden">Previous</span>
+					</button>
+					<button
+						class="carousel-control-next"
+						type="button"
+						data-bs-target="#carouselExampleControls"
+						data-bs-slide="next"
+					>
+						<span class="next-icon"
+							><i class="fa fa-chevron-circle-right fa-4x" aria-hidden="true"></i>
+						</span>
+						<span class="visually-hidden">Next</span>
+					</button>
+				</div>
 			</div>
 
 			<span class="section-title">Top Categories</span>
