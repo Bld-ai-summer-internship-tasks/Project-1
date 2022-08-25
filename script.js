@@ -1,5 +1,4 @@
 const DATA_URL = 'http://localhost:3000/courses';
-let currentCoursesJsonData;
 
 /**
  * @description fetch courses data from server in json format
@@ -19,12 +18,66 @@ function fetchCourses() {
  * @param {JSON} coursesJsonData
  */
 function renderCoursesSection(coursesJsonData) {
-	const COURSES_CARDS_LIST_ELEMENT = document.getElementById('courses-list');
+	const COURSES_CARDS_LIST_ELEMENT = document.getElementById('courses-slider');
 	COURSES_CARDS_LIST_ELEMENT.innerHTML = ''; // clear old courses cards
-	coursesJsonData.forEach((course) => {
-		const COURSE_CARD_ELEMENT = createCourseCardElement(course);
-		COURSES_CARDS_LIST_ELEMENT.appendChild(COURSE_CARD_ELEMENT);
+
+	const NUM_OF_CARDS_PER_ROW = getNumOfCardsPerRow();
+	const COURSES_PER_ROW = spliceIntoChunks(coursesJsonData, NUM_OF_CARDS_PER_ROW);
+
+	COURSES_PER_ROW.forEach((coursesRow) => {
+		const CROUSAL_ITEM_ELEMENT = createCourseCardsRow(coursesRow);
+		COURSES_CARDS_LIST_ELEMENT.appendChild(CROUSAL_ITEM_ELEMENT);
 	});
+	COURSES_CARDS_LIST_ELEMENT.childNodes[0].classList.add('active');
+}
+
+/**
+ * @description get the suitable number of cards per row
+ * @returns {Number} number of cards per row
+ */
+function getNumOfCardsPerRow() {
+	const WIDTH = window.innerWidth;
+	if (WIDTH < 645) {
+		return 1;
+	}
+	if (WIDTH < 908) {
+		return 2;
+	}
+	if (WIDTH < 1152) {
+		return 3;
+	}
+	if (WIDTH < 1409) {
+		return 4;
+	}
+	return 5;
+}
+
+/**
+ *
+ * @param {list} arr
+ * @param {number} chunkSize
+ * @returns {list} splitted array
+ */
+function spliceIntoChunks(arr, chunkSize) {
+	const res = [];
+	while (arr.length > 0) {
+		const chunk = arr.splice(0, chunkSize);
+		res.push(chunk);
+	}
+	return res;
+}
+
+function createCourseCardsRow(coursesArr) {
+	const COURSES_ROW_ELEMENT = document.createElement('div');
+	COURSES_ROW_ELEMENT.classList.add('courses-list');
+	coursesArr.forEach((course) => {
+		const COURSE_CARD_ELEMENT = createCourseCardElement(course);
+		COURSES_ROW_ELEMENT.appendChild(COURSE_CARD_ELEMENT);
+	});
+	const CROUSAL_ITEM_ELEMENT = document.createElement('div');
+	CROUSAL_ITEM_ELEMENT.classList.add('carousel-item');
+	CROUSAL_ITEM_ELEMENT.appendChild(COURSES_ROW_ELEMENT);
+	return CROUSAL_ITEM_ELEMENT;
 }
 
 /**
@@ -51,8 +104,10 @@ function createCourseCardElement(courseJsonData) {
  */
 function onSearchClickedHandler() {
 	const SEARCH_TERM = document.getElementById('search-box').value;
-	const FILTERED_COURSES_JSON_DATA = filterCoursesJsonData(currentCoursesJsonData, SEARCH_TERM);
-	renderCoursesSection(FILTERED_COURSES_JSON_DATA);
+	fetchCourses().then((coursesJsonData) => {
+		const FILTERED_COURSES_JSON_DATA = filterCoursesJsonData(coursesJsonData, SEARCH_TERM);
+		renderCoursesSection(FILTERED_COURSES_JSON_DATA);
+	});
 }
 
 /**
@@ -74,7 +129,12 @@ document.getElementById('search-box').addEventListener('keyup', function (event)
 	}
 });
 
+window.addEventListener('resize', function (event) {
+	fetchCourses().then((fetchedCoursesJsonData) => {
+		renderCoursesSection(fetchedCoursesJsonData);
+	});
+});
+
 fetchCourses().then((fetchedCoursesJsonData) => {
-	currentCoursesJsonData = fetchedCoursesJsonData;
-	renderCoursesSection(currentCoursesJsonData);
+	renderCoursesSection(fetchedCoursesJsonData);
 });
